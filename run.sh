@@ -8,8 +8,12 @@ uv run python manage.py migrate
 
 if [ "$DEBUG" = "1" ]; then
     echo "Running in debug mode."
+
+    # launch debug server
     uv run python manage.py runserver
 else
     echo "Running in production mode."
+
+    # launch prod server
     uv run daphne -b 0.0.0.0 -p 8000 tenant_hub.asgi:application
 fi
