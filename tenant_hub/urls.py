@@ -10,5 +10,7 @@ def index(request: HttpRequest) -> HttpResponse:
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('auth/', include('authz.urls'))
+    path('auth/', include('authz.urls')),
+    path('app/', include('core.urls')),
 ]
+
