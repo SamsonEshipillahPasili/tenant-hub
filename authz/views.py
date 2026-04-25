@@ -12,3 +12,7 @@ class RegisterView(TemplateView):
 
 class ForgotPasswordView(TemplateView):
     template_name = 'authz/forgot-password.html'
+
+
+class ResetPasswordView(TemplateView):
+    template_name = 'authz/reset-password.html'
