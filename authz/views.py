@@ -8,3 +8,7 @@ class TenantHubLoginView(LoginView):
 
 class RegisterView(TemplateView):
     template_name = 'authz/sign-up.html'
+
+
+class ForgotPasswordView(TemplateView):
+    template_name = 'authz/forgot-password.html'
