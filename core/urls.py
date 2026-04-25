@@ -6,4 +6,5 @@ app_name = 'core'
 
 urlpatterns = [
     path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    path('messages/', views.MessagesView.as_view(), name='messages'),
 ]
