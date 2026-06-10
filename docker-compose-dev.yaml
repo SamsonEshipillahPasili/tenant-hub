@@ -1,14 +1,14 @@
 services:
   db:
     image: postgres:16-alpine
-    container_name: tenanthub_db
+    container_name: tenanthub_db_dev
     restart: always
     environment:
       POSTGRES_DB: ${DB_NAME:-tenant_hub}
       POSTGRES_USER: ${DB_USER:-tenant_hub}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-yHihwDmC11A-JyxdqNOJ}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_dev:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
@@ -21,10 +21,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: tenanthub_web
+    container_name: tenanthub_web_dev
     restart: always
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     environment:
-      - DEBUG=0
+      - DEBUG=1
       - SECRET_KEY=${SECRET_KEY:-zye05XsSu7zypu1Z_9U7sFA0wHnf297j6USObPhOsjz5AjZJkEo6F1m3NimHZ-dpnfw}
       - DB_NAME=${DB_NAME:-tenant_hub}
       - DB_USER=${DB_USER:-tenant_hub}
@@ -37,10 +40,12 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - static_volume:/app/staticfiles
-      - media_volume:/app/media
+      - .:/app
+      - /app/.venv
+      - static_volume_dev:/app/staticfiles
+      - media_volume_dev:/app/media
 
 volumes:
-  postgres_data:
-  static_volume:
-  media_volume:
+  postgres_data_dev:
+  static_volume_dev:
+  media_volume_dev:
