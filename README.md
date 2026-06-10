@@ -91,3 +91,24 @@ They physically:-
 - The admin marks the lease as awaiting Refund.
 - Once payment is through, the lease moves to "Terminated".
 
+## Local Container Development
+
+You can run the application locally inside Docker containers using the development configuration. This setup features live code reloading (hot reload) and automatically runs database migrations.
+
+### Prerequisites
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) or Docker Engine with Docker Compose installed.
+
+### Running the App
+
+1. Ensure your local `.env` file is set up with any necessary development environment variables.
+2. Build and start the services using the development Docker Compose file:
+   ```bash
+   docker compose -f docker-compose-dev.yaml up --build
+   ```
+3. The application will be accessible at [http://localhost:8000](http://localhost:8000).
+4. The database port is kept internal to the Docker network for security, but the container-to-container connection between the web service and the PostgreSQL database service is fully configured.
+
+### Hot Reloading & Migrations
+- Code changes in the local directory are synced automatically inside the container.
+- When the containers start, database migrations run automatically prior to launching the development server.
