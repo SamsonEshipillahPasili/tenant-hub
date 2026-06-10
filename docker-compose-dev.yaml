@@ -9,8 +9,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-yHihwDmC11A-JyxdqNOJ}
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-tenant_hub} -d ${DB_NAME:-tenant_hub}"]
       interval: 5s
