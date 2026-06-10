@@ -138,4 +138,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 ASGI_APPLICATION = 'tenant_hub.asgi.application'

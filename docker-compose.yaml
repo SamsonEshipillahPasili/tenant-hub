@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: tenanthub_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-tenant_hub}
+      POSTGRES_USER: ${DB_USER:-tenant_hub}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-yHihwDmC11A-JyxdqNOJ}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-tenant_hub} -d ${DB_NAME:-tenant_hub}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tenanthub_web
+    restart: always
+    environment:
+      - DEBUG=0
+      - SECRET_KEY=${SECRET_KEY:-zye05XsSu7zypu1Z_9U7sFA0wHnf297j6USObPhOsjz5AjZJkEo6F1m3NimHZ-dpnfw}
+      - DB_NAME=${DB_NAME:-tenant_hub}
+      - DB_USER=${DB_USER:-tenant_hub}
+      - DB_PASSWORD=${DB_PASSWORD:-yHihwDmC11A-JyxdqNOJ}
+      - DB_HOST=db
+      - DB_PORT=5432
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
